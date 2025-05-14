@@ -14,17 +14,18 @@ def lz77_compress(s):
             match_len = 0
                
             while( i + match_len < end and s[j+match_len] == s[i+match_len]):
-                match_len +=1
+                match_len += 1
             if match_len > length:
                 offset = i - j
                 length = match_len
 
         if length > 0 and i + length < end:
-            c = s[i + length]
-            result.append((offset, length, c))    
+            char = s[i + length]
+            result.append((offset, length, char))    
             i += length + 1
         elif length > 0:
-           break
+            result.append((offset, length, ""))
+            break
         else:   
             result.append((0, 0, s[i]))
             i += 1
@@ -32,7 +33,29 @@ def lz77_compress(s):
            
     return result
         
-print(lz77_compress("aaabbbccc"))
+def lz77_decompress(data):
+    if not data:
+        print("empty")
+        return
+    
+    result = ""
+
+    for offset, length, char in data:
+        if offset == 0 and length == 0:
+            result += char
+        else:
+            start = len(result) - offset
+            end = start + length
+            while start < end:
+                result += result[start]
+                start += 1
+            result += char
+    return result
+
+text = "jjuurrnn,,[[]][]][][]"
+print(lz77_compress(text))
+print(lz77_decompress(lz77_compress(text)))
+
 
 
 
