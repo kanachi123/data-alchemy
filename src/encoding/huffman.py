@@ -59,3 +59,7 @@ def huffman_encode(text):
     encoded_text = ''.join(codes[char] for char in text)
 
     return encoded_text, codes
+
+text = "hell"
+encoded_text, codes = huffman_encode(text)
+print(encoded_text,codes)
